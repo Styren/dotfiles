@@ -2,11 +2,17 @@ call plug#begin('~/.vim/plugged')
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'pangloss/vim-javascript'
 Plug 'flowtype/vim-flow'
+Plug 'cespare/vim-toml'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'rust-lang/rust.vim'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
 call plug#end()
+
+" set filetypes as typescript.tsx
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
 
 " TextEdit might fail if hidden is not set.
 set hidden
@@ -33,19 +39,22 @@ syntax on
 set relativenumber
 set sw=2 ts=2 expandtab
 
+set pastetoggle=<leader>p
+
 nnoremap <c-p> :FZF<cr>
 nnoremap <c-l> :Ag<cr>
 
 nmap <silent> gb <Plug>(boc-definition)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> <leader>r <Plug>(coc-rename)
-nmap <silent> <leader>n <Plug>(coc-diagnostic-prev)
-nmap <silent> <leader>p <Plug>(coc-diagnostic-next)
 
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>ac  <Plug>(coc-codeaction)
-nmap <leader>qf  <Plug>(coc-fix-current)
+xmap <leader>a <Plug>(coc-codeaction-selected)
+nmap <leader>a <Plug>(coc-codeaction-selected)
+nmap <leader>ac <Plug>(coc-codeaction)
+nmap <leader>qf <Plug>(coc-fix-current)
+
+xmap € <Plug>(coc-codeaction-selected)
+nmap € <Plug>(coc-codeaction)
 
 let g:coc_global_extensions = ['coc-flow', 'coc-java', 'coc-rust-analyzer']
 
@@ -65,5 +74,7 @@ command! -nargs=0 Format :call CocAction('format')
 
 " Add `:OrganizeImport` command for organize imports of the current buffer.
 command! -nargs=0 OrganizeImport :call CocAction('runCommand', 'editor.action.organizeImport')
+
+let g:flow#showquickfix = 0
 
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
