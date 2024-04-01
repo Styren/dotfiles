@@ -1,5 +1,9 @@
+[url "git@github.com:"]
+  insteadOf = https://github.com/
 [push]
 	default = current
 [user]
 	email = buster.styren@gmail.com
 	name = Buster Styren
+[init]
+	defaultBranch = main

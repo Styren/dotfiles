@@ -5,6 +5,7 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
+Plug 'junegunn/vim-easy-align'
 Plug 'hashivim/vim-terraform'
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'pangloss/vim-javascript'
@@ -13,6 +14,8 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'rust-lang/rust.vim'
+Plug 'mustache/vim-mustache-handlebars'
+Plug 'cespare/vim-toml'
 call plug#end()
 
 " TextEdit might fail if hidden is not set.
@@ -49,14 +52,22 @@ nmap <silent> <leader>r <Plug>(coc-rename)
 nmap <silent> <leader>n <Plug>(coc-diagnostic-prev)
 nmap <silent> <leader>p <Plug>(coc-diagnostic-next)
 
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>ac  <Plug>(coc-codeaction)
-nmap <leader>qf  <Plug>(coc-fix-current)
+xmap <leader>a <Plug>(coc-codeaction-selected)
+nmap <leader>a <Plug>(coc-codeaction-selected)
+nmap <leader>ac <Plug>(coc-codeaction)
+nmap <leader>qf <Plug>(coc-fix-current)
+nmap <leader>cl <Plug>(coc-codelens-action)
 
-let g:coc_global_extensions = ['coc-flow', 'coc-java', 'coc-rust-analyzer']
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+let g:coc_global_extensions = ['coc-eslint', 'coc-tsserver', 'coc-flow', 'coc-java', 'coc-rust-analyzer']
 
 autocmd CursorHold * silent call CocActionAsync('highlight')
+
+autocmd BufNewFile,BufRead *.mdx set filetype=markdown
 
 set mouse=n
 
@@ -74,3 +85,8 @@ command! -nargs=0 Format :call CocAction('format')
 command! -nargs=0 OrganizeImport :call CocAction('runCommand', 'editor.action.organizeImport')
 
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+
+" To speed up typescript
+set re=0
